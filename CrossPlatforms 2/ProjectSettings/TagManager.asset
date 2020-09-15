@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Lava
   - Snow
+  - Enemy
+  - PowerUp_GodMode
+  - PowerUp_SuperJump
+  - PowerUp_SuperSpeed
   layers:
   - Default
   - TransparentFX

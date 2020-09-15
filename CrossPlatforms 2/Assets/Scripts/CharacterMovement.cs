@@ -36,6 +36,15 @@ public class CharacterMovement : MonoBehaviour
 
     GameManager gm;
 
+    public bool godModeActive;
+    public float godModeTimer;
+
+    public float jumpMultiplier;
+    public float jumpModeTimer;
+
+    public float speedMultiplier;
+    public float speedModeTimer;
+
 
     void Start()
     {
@@ -77,6 +86,24 @@ public class CharacterMovement : MonoBehaviour
 
         // let the gameObject fall down
         //gameObject.transform.position = new Vector3(0, 5, 0);
+
+        godModeActive = false;
+
+        if (godModeTimer <= 0)
+            godModeTimer = 2.0f;
+
+        if (jumpMultiplier <= 0)
+            jumpMultiplier = 2.0f;
+
+        if (jumpModeTimer <= 0)
+            jumpModeTimer = 2.0f;
+
+        if (speedMultiplier <= 0)
+            speedMultiplier = 2.0f;
+
+        if (speedModeTimer <= 0)
+            speedModeTimer = 3.0f;
+
     }
 
     void Update()
@@ -218,6 +245,33 @@ public class CharacterMovement : MonoBehaviour
 
         }
 
+        if (other.gameObject.CompareTag("PowerUp_GodMode"))
+        {
+            Destroy(other.gameObject);
+
+            godModeActive = true;
+
+            StartCoroutine(StopGodMode());
+        }
+
+        if (other.gameObject.CompareTag("PowerUp_SuperJump"))
+        {
+            Destroy(other.gameObject);
+
+            jumpSpeed *= jumpMultiplier;
+
+            StartCoroutine(StopJumpMode());
+        }
+
+        if (other.gameObject.CompareTag("PowerUp_SuperSpeed"))
+        {
+            Destroy(other.gameObject);
+
+            speed *= speedMultiplier;
+
+            StartCoroutine(StopSpeedMode());
+        }
+
 
 
     }
@@ -241,11 +295,28 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    void OnTriggerStay(Collider other)
+    IEnumerator StopGodMode()
     {
-       
-       
+        yield return new WaitForSeconds(godModeTimer);
+
+        godModeActive = false;
     }
+
+    IEnumerator StopJumpMode()
+    {
+        yield return new WaitForSeconds(jumpModeTimer);
+
+        jumpSpeed /= jumpMultiplier;
+    }
+
+    IEnumerator StopSpeedMode()
+    {
+        yield return new WaitForSeconds(jumpModeTimer);
+
+        speed /= speedMultiplier;
+    }
+
+
 
     public void killPlayer()
     {
