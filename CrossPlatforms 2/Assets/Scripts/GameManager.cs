@@ -14,11 +14,14 @@ public class GameManager : MonoBehaviour
     public int maxLives;
 
     public GameObject playerPrefab;
+    public AudioSource audiosource;
+    public AudioClip clip;
+    public float volumme = 5.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        audiosource.Play();
         if (instance)
         {
             Destroy(gameObject);
